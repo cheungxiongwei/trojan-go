@@ -309,6 +309,57 @@ CGO_ENABLED=0 GOOS=macos GOARCH=arm64 go build -tags "full"
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -tags "full"
 ```
 
+### window
+国内用户使用以下命令配置go代理：
+```shell
+setx GOPROXY "https://goproxy.cn,direct"
+```
+
+然后运行 `./build.bat` 脚本进行编译。
+
+windows 系统使用以下脚本进行编译(windows、macos、linux)。
+```bat
+@echo off
+
+:: Compile for Windows (64-bit)
+echo Compiling for Windows (64-bit)...
+set CGO_ENABLED=0
+set GOOS=windows
+set GOARCH=amd64
+go build -tags "full" -o trojan-go_windows.exe
+if %errorlevel% neq 0 (
+    echo Compilation for Windows failed!
+    exit /b %errorlevel%
+)
+echo Compilation for Windows completed successfully.
+
+:: Compile for Apple Silicon (macOS ARM64)
+echo Compiling for macOS (ARM64)...
+set CGO_ENABLED=0
+set GOOS=darwin
+set GOARCH=arm64
+go build -tags "full" -o trojan-go_macos
+if %errorlevel% neq 0 (
+    echo Compilation for macOS failed!
+    exit /b %errorlevel%
+)
+echo Compilation for macOS completed successfully.
+
+:: Compile for Linux (64-bit)
+echo Compiling for Linux (64-bit)...
+set CGO_ENABLED=0
+set GOOS=linux
+set GOARCH=amd64
+go build -tags "full" -o trojan-go_linux
+if %errorlevel% neq 0 (
+    echo Compilation for Linux failed!
+    exit /b %errorlevel%
+)
+echo Compilation for Linux completed successfully.
+
+pause
+```
+
 ## 致谢
 
 - [Trojan](https://github.com/trojan-gfw/trojan)
